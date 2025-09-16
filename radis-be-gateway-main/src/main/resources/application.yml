@@ -1,0 +1,53 @@
+server:
+  port: 8090
+
+jwt:
+  secret: "c2VjcmV0LWtleS13aXRoLWF0LWxlYXN0LTMyLWNoYXJhY3RlcnM="
+  expiration: 3600000 # 1 saat
+
+spring:
+  application:
+    name: api-gateway
+  r2dbc:
+    url: ${SPRING_R2DBC_URL}
+    username: ${SPRING_R2DBC_USERNAME}
+    password: ${SPRING_R2DBC_PASSWORD}
+    #url: r2dbc:postgresql://localhost:5433/radis
+    #username: myuser
+    #password: mypassword
+  sql:
+    init:
+      mode: always
+      #schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+  security:
+    user:
+      name: actuator
+      password: actuator-pass
+      roles: ACTUATOR
+  cloud:
+    gateway:
+      server:
+        webflux:
+          httpclient:
+            pool:
+              max-idle-time: 10000
+
+management:
+  endpoints:
+    web:
+      base-path: /manage
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      access: read_only
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.cloud.gateway: TRACE
+    com.example.gateway: DEBUG

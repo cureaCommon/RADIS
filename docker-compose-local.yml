@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16
+    container_name: radis-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: radis
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d
+
+    ports:
+      - "5434:5432"
+    networks:
+      - app-network
+
+  gateway:
+    build:
+      context: ./radis-be-gateway-main
+    ports:
+      - "8090:8090"
+    depends_on:
+      - db
+    environment:
+      SPRING_R2DBC_URL: r2dbc:postgresql://db:5432/radis
+      SPRING_R2DBC_USERNAME: myuser
+      SPRING_R2DBC_PASSWORD: mypassword
+    networks:
+      - app-network
+
+  diagnosis:
+    build:
+      context: ./radis-be-diagnosis-main
+    ports:
+      - "8091:8091"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/radis
+      SPRING_DATASOURCE_USERNAME: myuser
+      SPRING_DATASOURCE_PASSWORD: mypassword
+    networks:
+      - app-network
+
+
+  radis-parent:
+    build:
+      context: ./radis-fe-parent-test
+    ports:
+      - "3001:3001"
+    networks:
+      - app-network
+
+  radis-release:
+    build:
+      context: ./radis-frontend-release-test
+    ports:
+      - "3002:3002"
+    networks:
+      - app-network
+
+volumes:
+  postgres-data:
+
+networks:
+  app-network:
