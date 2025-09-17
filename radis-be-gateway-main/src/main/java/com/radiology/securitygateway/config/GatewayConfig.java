@@ -16,7 +16,7 @@ public class GatewayConfig {
                         .filters(f -> f
                                 .rewritePath("/auth/(?<segment>.*)", "/${segment}")
                         )
-                        .uri("http://localhost:8080"))
+                        .uri("http://188.166.82.72:8090"))
                 // Diagnosis Service Route
                 .route("diagnosis-service", r -> r
                         .path("/api/diagnosis/**")
@@ -24,7 +24,7 @@ public class GatewayConfig {
                                 .rewritePath("/api/diagnosis/(?<segment>.*)", "/${segment}")
                                 .removeRequestHeader("Cookie")
                         )
-                        .uri("http://localhost:8081"))
+                        .uri("http://188.166.82.72:8091"))
                 .build();
     }
 }
