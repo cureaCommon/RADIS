@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  radis-frontend:
+    build:
+      context: ./ # Use an image built from the specified dockerfile in the `seas.itm` directory.
+      dockerfile: Dockerfile
+      args:
+        - APP_ENV=test
+    image: repo.hevi.ai/repository/hevidocker/radis-frontend:u20_1.0.0_CANDIDATE
+    container_name: radis-frontend-container
+    ports:
+      - "3002:173"
+#    env_file:
+#      - .env.test
+#    environment:
+#      NEXT_PUBLIC_API_BASE_PATH: ${NEXT_PUBLIC_API_BASE_PATH}
+    restart: unless-stopped

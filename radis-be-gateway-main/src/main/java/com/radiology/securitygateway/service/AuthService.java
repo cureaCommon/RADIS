@@ -1,7 +1,6 @@
 package com.radiology.securitygateway.service;
 
 import com.radiology.securitygateway.dto.AuthResponse;
-import com.radiology.securitygateway.entity.User;
 import com.radiology.securitygateway.repository.UserRepository;
 import com.radiology.securitygateway.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -41,17 +40,6 @@ public class AuthService {
                     log.warn("Şifre eşleşmedi: {}", username);
                     return Mono.error(new RuntimeException("Geçersiz kimlik bilgileri"));
                 });
-    }
-
-    public Mono<AuthResponse> register(String username, String password, String email) {
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setEmail(email);
-        user.setRoles("ROLE_USER");
-        return userRepository.save(user)
-                .map(jwtUtil::generateToken)
-                .map(AuthResponse::new);
     }
 
     private boolean isValidBcryptHash(String hash) {

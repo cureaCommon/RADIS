@@ -1,18 +1,20 @@
 # Build aşaması
 FROM node:20 AS builder
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN rm -rf node_modules package-lock.json
+COPY package*.json ./
 RUN npm install
 COPY . .
+RUN chmod +x node_modules/.bin/tsc
 RUN npm run build
 
-# Production
-FROM node:20-slim
+
+
+# Production aşaması
+FROM node:20
 WORKDIR /app
-RUN apt-get update && apt-get install -y bash curl git python3 make g++ && rm -rf /var/lib/apt/lists/*
 COPY --from=builder /app /app
-ENV NODE_ENV=production
+COPY package*.json ./
 RUN npm install -g serve
-EXPOSE 3002
-CMD ["serve", "-s", "dist", "-l", "3002"]
+ENV NODE_ENV=production
+EXPOSE 5173
+CMD ["serve", "-s", "dist", "-l", "5173"]

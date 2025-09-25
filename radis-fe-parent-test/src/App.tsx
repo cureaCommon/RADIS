@@ -22,8 +22,8 @@ const PatientPage = () => {
     };
 
     const authToken = sessionStorage.getItem('authToken');
-    const iframeUrl = `http://localhost:5173/`;
-    const childOrigin = 'http://localhost:5173';
+    const iframeUrl = `http://188.166.82.72:3001/`;
+    const childOrigin = 'http://188.166.82.72:3001';
 
     const sendMessageToIframe = () => {
         if (!iframeRef.current?.contentWindow) {

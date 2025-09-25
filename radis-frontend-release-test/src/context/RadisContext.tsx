@@ -51,7 +51,7 @@ export const RadisProvider: React.FC<{ children: ReactNode }> = ({children}) => 
 
     useEffect(() => {
         const handleMessage = (event: MessageEvent) => {
-            const parentOrigin = 'http://localhost:5174';
+            const parentOrigin = 'http://188.166.82.72:3002';
             if (event.origin !== parentOrigin) {
                 console.warn(`Güvenilmeyen origin'den mesaj reddedildi: ${event.origin}`);
                 return;
@@ -104,7 +104,7 @@ export const RadisProvider: React.FC<{ children: ReactNode }> = ({children}) => 
         };
 
         window.addEventListener("message", handleMessage);
-        const parentOrigin = 'http://localhost:5174';
+        const parentOrigin = 'http://188.166.82.72:3002';
         console.log("Child: 'child-ready' message send.");
         window.parent.postMessage('child-ready', parentOrigin);
 

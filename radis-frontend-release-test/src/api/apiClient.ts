@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://188.166.82.72:8090/api/diagnosis';
+const API_BASE_URL = 'http://188.166.82.72:8090/api/diagnosis';;
 
 const apiClient = axios.create({
     baseURL: API_BASE_URL,
